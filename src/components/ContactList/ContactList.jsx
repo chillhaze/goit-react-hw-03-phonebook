@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import css from './ContactList.module.css';
 import { ContactItem } from './ContactItem';
 
@@ -19,4 +20,9 @@ export const ContactList = ({ contacts, onDeleteBtnPush }) => {
       </ul>
     </div>
   );
+};
+
+ContactList.propTypes = {
+  contacts: PropTypes.arrayOf(PropTypes.object),
+  onDeleteBtnPush: PropTypes.func,
 };

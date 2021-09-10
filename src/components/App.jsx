@@ -19,14 +19,29 @@ export class App extends Component {
     filter: '',
   };
 
-  formSubmitHandler = data => {
-    data = { ...data, id: uuidv4() };
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
-    this.state.contacts.find(item =>
-      item.name === data.name
-        ? alert(`${item.name + ' is already in contacts'}`)
-        : this.setState({ contacts: [...this.state.contacts, data] }),
-    );
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  formSubmitHandler = data => {
+    data = { id: uuidv4(), ...data };
+
+    if (this.state.contacts.find(item => item.name === data.name)) {
+      return alert(`${data.name + ' is already in contacts'}`);
+    } else {
+      return this.setState({ contacts: [...this.state.contacts, data] });
+    }
   };
 
   removeContactHandler = id => {
@@ -41,7 +56,6 @@ export class App extends Component {
 
   getFilteredContacts = () => {
     const { contacts, filter } = this.state;
-
     const normalizedFilter = filter.toLowerCase();
 
     return contacts.filter(item =>

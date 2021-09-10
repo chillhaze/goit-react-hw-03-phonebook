@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import css from './ContactList.module.css';
 import { FaTrashAlt } from 'react-icons/fa';
 import { IoIosContact } from 'react-icons/io';
@@ -23,4 +24,11 @@ export const ContactItem = ({ id, name, number, onDeleteBtnPush }) => {
       </button>
     </li>
   );
+};
+
+ContactItem.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  number: PropTypes.string,
+  onDeleteBtnPush: PropTypes.func,
 };
